@@ -5,10 +5,10 @@ import java.awt.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Ball {
+public class Ball implements Regionable {
     static int count = 0;
     int id = ++count;
-    static Logger logger = LogManager.getLogger(Ball.class.getName());
+    Logger logger = LogManager.getLogger(this.getClass().getSimpleName());
     Rectangle region;
 
     public Ball(long x, long y, long radius) {
@@ -41,6 +41,14 @@ public class Ball {
 
     public void setY(int y) {
         region.setLocation(getX() - getRadius(), y - getRadius());
+    }
+
+    public int getWidth() {
+        return (int) getRegion().getWidth();
+    }
+
+    public int getHeight() {
+        return (int) getRegion().getHeight();
     }
 
     public int getRadius() {

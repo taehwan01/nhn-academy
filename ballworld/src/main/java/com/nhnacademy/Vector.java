@@ -31,6 +31,11 @@ public class Vector {
         this.dy = dy;
     }
 
+    public void set(int dx, int dy) {
+        setDX(dx);
+        setDY(dy);
+    }
+
     public void set(Vector vector) {
         setDX(vector.getDX());
         setDY(vector.getDY());

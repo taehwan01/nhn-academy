@@ -10,6 +10,7 @@ public class TestWorld {
     static final int FRAME_WIDTH = 400;
     static final int FRAME_HEIGHT = 300;
     static final int BALL_COUNTS = 5;
+    static final int BOX_COUNTS = 2;
     static final int MIN_RADIUS = 10;
     static final int MAX_RADIUS = 50;
     static final int MIN_DELTA = 1;
@@ -56,6 +57,24 @@ public class TestWorld {
                 ball.setDY(dy);
 
                 world.add(ball);
+            } catch (IllegalArgumentException ignore) {
+                //
+            }
+        }
+
+        while (world.getCount() < BALL_COUNTS + BOX_COUNTS) {
+            try {
+                BoundedBox box = new BoundedBox(random.nextInt(FRAME_WIDTH), random.nextInt(FRAME_HEIGHT),
+                        random.nextInt(20, 30),
+                        random.nextInt(20, 30), Color.BLACK);
+
+                int dx = random.nextInt(MAX_DELTA * (-1), MAX_DELTA * 2);
+                int dy = random.nextInt(MAX_DELTA * (-1), MAX_DELTA * 2);
+
+                box.setDX(dx);
+                box.setDY(dy);
+
+                world.add(box);
             } catch (IllegalArgumentException ignore) {
                 //
             }

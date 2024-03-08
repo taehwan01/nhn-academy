@@ -1,7 +1,7 @@
 package com.nhnacademy;
 
 public class MoveableWorld extends World {
-    static final int DEFAULT_DT = 500;
+    static final int DEFAULT_DT = 20;
     private int moveCount;
     private int maxMoveCount;
     private int dt = DEFAULT_DT; // delta time 단위 시간
@@ -10,34 +10,42 @@ public class MoveableWorld extends World {
         super();
     }
 
+    public int getDT() {
+        return this.dt;
+    }
+
+    public void setDT(int dt) {
+        if (dt < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        this.dt = dt;
+    }
+
     public void reset() {
         this.moveCount = 0;
     }
 
     public void move() {
-        if (getMaxMoveCount() == 0 || getMovementCount() < getMaxMoveCount()) {
-            // List<Ball> removeList = new LinkedList<>();
-
+        if (getMaxMoveCount() == 0 || (getMovementCount() < getMaxMoveCount())) {
             for (int i = 0; i < getCount(); i++) {
-                Ball ball = get(i);
-                if (ball instanceof MoveableBall) {
-                    ((MoveableBall) ball).move();
-                    for (int j = 0; j < getCount(); j++) {
-                        Ball otherBall = get(j);
-                        if (ball != otherBall && ((MoveableBall) ball).isCollided((MoveableBall) otherBall)) {
-                            logger.info("Ball #{}과 OtherBall #{}이 충돌했습니다.", ball.getID(), otherBall.getID());
-                            ((BoundedBall) ball).bounce((BoundedBall) otherBall);
+                Regionable obj = get(i);
 
-                            // removeList.add(otherBall);
+                if (obj instanceof Moveable) {
+                    ((Moveable) obj).move();
+
+                    if (obj instanceof Bounded) {
+                        for (int j = 0; j < getCount(); j++) {
+                            Regionable other = get(j);
+
+                            if (obj != other && obj.getRegion().intersects(other.getRegion())) {
+                                logger.info("Ball #{}과 OtherBall #{}이 충돌했습니다.", obj.getID(), other.getID());
+                                ((Bounded) obj).bounce(other);
+                            }
                         }
                     }
                 }
             }
-
-            // for (Ball ball : removeList) {
-            // remove(ball);
-            // }
-
             moveCount++;
             repaint();
         }
@@ -68,17 +76,5 @@ public class MoveableWorld extends World {
         }
 
         this.maxMoveCount = count;
-    }
-
-    public void setDT(int dt) {
-        if (dt < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        this.dt = dt;
-    }
-
-    public int getDT() {
-        return this.dt;
     }
 }
