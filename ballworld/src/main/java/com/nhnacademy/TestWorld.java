@@ -9,7 +9,7 @@ import javax.swing.WindowConstants;
 public class TestWorld {
     static final int FRAME_WIDTH = 400;
     static final int FRAME_HEIGHT = 300;
-    static final int BALL_COUNTS = 10;
+    static final int BALL_COUNTS = 5;
     static final int MIN_RADIUS = 10;
     static final int MAX_RADIUS = 50;
     static final int MIN_DELTA = 1;

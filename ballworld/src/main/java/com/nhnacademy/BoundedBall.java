@@ -56,20 +56,16 @@ public class BoundedBall extends MoveableBall {
         }
     }
 
-    public void bounce(BoundedBall otherBall) {
-        Rectangle intersection = getRegion().intersection(otherBall.getRegion());
+    public void bounce(BoundedBall other) {
+        Rectangle intersection = getRegion().intersection(other.getRegion());
 
-        // 내 원의 겹쳐진 너비와 부딪힌 면적의 너비가 같다면
-        if (getRegion().getWidth() == intersection.getWidth()) {
+        if ((getRegion().getHeight() != intersection.getHeight())
+                && (other.getRegion().getHeight() != intersection.getHeight())) {
             setDY(-getDY());
         }
 
-        else if (getRegion().getHeight() == intersection.getHeight()) {
-            setDX(-getDX());
-        }
-
-        else {
-            setDY(-getDY());
+        if ((getRegion().getWidth() != intersection.getWidth())
+                && (other.getRegion().getWidth() != intersection.getWidth())) {
             setDX(-getDX());
         }
     }
