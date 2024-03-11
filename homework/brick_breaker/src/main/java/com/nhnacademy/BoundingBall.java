@@ -41,20 +41,15 @@ public class BoundingBall extends PaintableBall implements Boundable, Moveable {
             return;
         }
 
-        if (intersection.width > intersection.height) {
+        if (intersection.width >= intersection.height) {
             motion.turnDY();
-        } else {
+        }
+        if (intersection.width <= intersection.height) {
             motion.turnDX();
         }
 
-        // if ((getRegion().getHeight() != intersection.getHeight())
-        // && (other.getRegion().getHeight() != intersection.getHeight())) {
-        // setDY(-getDY());
-        // }
-
-        // if ((getRegion().getWidth() != intersection.getWidth())
-        // && (other.getRegion().getWidth() != intersection.getWidth())) {
-        // setDX(-getDX());
-        // }
+        if (other instanceof Brick) {
+            ((Brick) other).hit();
+        }
     }
 }

@@ -1,22 +1,27 @@
 package com.nhnacademy;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class Ball implements Regionable {
+public class Box implements Regionable {
     private static int count = 0;
     private int id = ++count; // id값은 증가시킨 count로 초기화한 멤버 변수
-    private Rectangle region; // 이 Ball이 차지하는 사각 영역(Rectangle)
-    private Color color;
+    private Rectangle region; // 이 Brick이 차지하는 영역(Rectangle)
 
-    public Ball(int x, int y, int radius) {
-        this.region = new Rectangle(x, y, radius * 2, radius * 2);
+    public Box() {
+        this(0, 0, 1, 1);
+    }
+
+    public Box(int x, int y, int width, int height) {
+        this.region = new Rectangle(x, y, width, height);
     }
 
     @Override
     public int getID() {
         return this.id;
+    }
+
+    public int getTotalCount() {
+        return count;
     }
 
     @Override
@@ -50,16 +55,8 @@ public class Ball implements Regionable {
         return new Rectangle(this.region);
     }
 
-    public Color getColor() {
-        return this.color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public void paint(Graphics g) {
-        g.setColor(getColor());
-        g.fillOval(getX(), getY(), getWidth(), getHeight());
+    @Override
+    public String toString() {
+        return String.format("* Brick ( %d, %d, %d, %d )", this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 }

@@ -3,11 +3,12 @@ package com.nhnacademy;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class PaintableBall extends Ball implements Paintable {
+public class PaintableBox extends Box implements Paintable {
+
     private Color color;
 
-    public PaintableBall(int x, int y, int radius, Color color) {
-        super(x, y, radius);
+    public PaintableBox(int x, int y, int width, int height, Color color) {
+        super(x, y, width, height);
         this.color = color;
     }
 
@@ -24,6 +25,6 @@ public class PaintableBall extends Ball implements Paintable {
     @Override
     public void paint(Graphics g) {
         g.setColor(getColor());
-        g.fillOval(getX(), getY(), getWidth(), getHeight());
+        g.fillRect(getX(), getY(), getWidth(), getHeight());
     }
 }
