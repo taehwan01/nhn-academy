@@ -1,8 +1,8 @@
 package com.nhnacademy;
 
 public class Main {
-    private static final int CONSUMER_LENGTH = 10;
-    private static final int PRODUCER_LENGTH = 3;
+    private static final int CONSUMER_LENGTH = 50;
+    private static final int PRODUCER_LENGTH = 10;
 
     public static void main(String[] args) {
         Store store = new Store();
@@ -27,7 +27,7 @@ public class Main {
 
         // 5분 뒤에 store 영업 종료
         try {
-            Thread.sleep(3000);
+            Thread.sleep(5000);
             store.close();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

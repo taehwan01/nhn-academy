@@ -10,31 +10,39 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Store {
-    private static final int STORE_CAPACITY = 5;
+    private static final int CONSUMER_CAPACITY = 20;
+    private static final int PRODUCER_CAPACITY = 5;
 
-    List<Item> items = new ArrayList<>();
+    List<Item> items;
     // thread pool
-    ExecutorService executor;
+    ExecutorService consumerPool;
+    ExecutorService producerPool;
     Logger logger = LogManager.getLogger(this.getClass().getSimpleName());
 
     public Store() {
+        items = new ArrayList<>();
         items.add(new Item(Category.FRUIT));
         items.add(new Item(Category.VEGETABLE));
         items.add(new Item(Category.MEAT));
         items.add(new Item(Category.FISH));
         items.add(new Item(Category.DAIRY));
-        executor = Executors.newFixedThreadPool(STORE_CAPACITY);
+
+        consumerPool = Executors.newFixedThreadPool(CONSUMER_CAPACITY);
+        producerPool = Executors.newFixedThreadPool(PRODUCER_CAPACITY);
     }
 
     public void enter(Runnable human) {
-        if (human instanceof Human) {
-            logger.info("* {} 입장합니다.", ((Human) human).getName());
-            executor.execute(human);
+        logger.info("* {} 입장합니다.", ((Human) human).getName());
+        if (human instanceof Consumer) {
+            consumerPool.execute(human);
+        } else if (human instanceof Producer) {
+            producerPool.execute(human);
         }
     }
 
     public void close() {
-        executor.shutdown();
+        consumerPool.shutdown();
+        producerPool.shutdown();
     }
 
     public void earnSupply() {
