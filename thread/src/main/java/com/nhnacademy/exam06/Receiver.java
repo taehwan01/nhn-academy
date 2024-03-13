@@ -17,11 +17,11 @@ public class Receiver implements Runnable {
         for (String receivedMessage = load.receive(); !"End".equals(receivedMessage); receivedMessage = load
                 .receive()) {
 
-            System.out.println(receivedMessage);
+            System.out.println("[I GOT A MESSAGE~!] " + receivedMessage);
 
             // Thread.sleep() to mimic heavy server-side processing
             try {
-                Thread.sleep(ThreadLocalRandom.current().nextInt(100, 500));
+                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.err.println("Thread Interrupted");
