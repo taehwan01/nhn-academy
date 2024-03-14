@@ -31,6 +31,6 @@ public class PaintableBall extends Ball implements Paintable {
     @Override
     public void paint(Graphics g) {
         g.setColor(getColor());
-        g.fillOval(getMinX(), getMinY(), getWidth(), getHeight());
+        g.fillOval(getX(), getY(), getWidth(), getHeight());
     }
 }

@@ -2,6 +2,9 @@ package com.nhnacademy.classification;
 
 import java.awt.Rectangle;
 
+import com.nhnacademy.point.Point;
+import com.nhnacademy.vector.Vector;
+
 public class Boundary {
     private final Rectangle rectangle;
 
@@ -9,28 +12,20 @@ public class Boundary {
         rectangle = new Rectangle(x, y, width, height);
     }
 
-    public int getMinX() {
-        return (int) rectangle.getMinX();
+    public Point getLocation() {
+        return new Point((int) rectangle.getX(), (int) rectangle.getY());
     }
 
-    public int getCenterX() {
-        return (int) rectangle.getCenterX();
+    public void setLocation(int x, int y) {
+        rectangle.setLocation(x, y);
     }
 
-    public int getMaxX() {
-        return (int) rectangle.getMaxX();
+    public int getX() {
+        return (int) rectangle.getX();
     }
 
-    public int getMinY() {
-        return (int) rectangle.getMinY();
-    }
-
-    public int getCenterY() {
-        return (int) rectangle.getCenterY();
-    }
-
-    public int getMaxY() {
-        return (int) rectangle.getMaxY();
+    public int getY() {
+        return (int) rectangle.getY();
     }
 
     public int getWidth() {
@@ -41,11 +36,12 @@ public class Boundary {
         return (int) rectangle.getHeight();
     }
 
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
     public boolean isCollided(Boundary other) {
         return rectangle.intersects(other.getRectangle());
     }
 
-    public Rectangle getRectangle() {
-        return rectangle;
-    }
 }

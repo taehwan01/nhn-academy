@@ -15,8 +15,12 @@ public class World extends JPanel {
         super();
     }
 
-    public int getObjectCount() {
+    public int getCount() {
         return objects.size();
+    }
+
+    public BoundaryAble get(int i) {
+        return objects.get(i);
     }
 
     public void add(BoundaryAble object) {

@@ -1,19 +1,13 @@
 package com.nhnacademy.classification;
 
 public interface BoundaryAble {
+    public Boundary getBoundary();
+
     public String getID();
 
-    public int getMinX();
+    public int getX();
 
-    public int getCenterX();
-
-    public int getMaxX();
-
-    public int getMinY();
-
-    public int getCenterY();
-
-    public int getMaxY();
+    public int getY();
 
     public int getWidth();
 

@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.nhnacademy.classification.Boundary;
 import com.nhnacademy.classification.BoundaryAble;
+import com.nhnacademy.point.Point;
 
 public class Ball implements BoundaryAble {
     final Logger logger = LogManager.getLogger(this.getClass().getSimpleName());
@@ -15,7 +16,12 @@ public class Ball implements BoundaryAble {
 
     public Ball(int x, int y, int radius) {
         id = UUID.randomUUID().toString();
-        boundary = new Boundary(x - radius, y - radius, radius * 2, radius * 2);
+        boundary = new Boundary(x, y, radius * 2, radius * 2);
+    }
+
+    @Override
+    public Boundary getBoundary() {
+        return boundary;
     }
 
     @Override
@@ -23,34 +29,22 @@ public class Ball implements BoundaryAble {
         return id;
     }
 
-    @Override
-    public int getMinX() {
-        return boundary.getMinX();
+    public Point getLocation() {
+        return new Point(boundary.getX(), boundary.getY());
+    }
+
+    public void setLocation(Point point) {
+        boundary.setLocation(point.getX(), point.getY());
     }
 
     @Override
-    public int getCenterX() {
-        return boundary.getCenterX();
+    public int getX() {
+        return boundary.getX();
     }
 
     @Override
-    public int getMaxX() {
-        return boundary.getMaxX();
-    }
-
-    @Override
-    public int getMinY() {
-        return boundary.getMinY();
-    }
-
-    @Override
-    public int getCenterY() {
-        return boundary.getCenterY();
-    }
-
-    @Override
-    public int getMaxY() {
-        return boundary.getMaxY();
+    public int getY() {
+        return boundary.getY();
     }
 
     @Override
