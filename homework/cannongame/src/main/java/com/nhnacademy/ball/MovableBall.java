@@ -3,76 +3,74 @@ package com.nhnacademy.ball;
 import java.awt.Color;
 
 import com.nhnacademy.classification.Movable;
+import com.nhnacademy.classification.MovableListener;
 import com.nhnacademy.point.Point;
 import com.nhnacademy.vector.Vector;
 
 public class MovableBall extends PaintableBall implements Movable {
-    private Vector vector;
     private int dt;
-    private int dx;
-    private int dy;
+    private Vector vector;
+    private Thread thread;
+    private boolean isRunning;
+    private MovableListener movableListener;
 
-    public MovableBall(int x, int y, int radius, Color color, int dx, int dy) {
-        super(x, y, radius, color);
-        this.dx = dx;
-        this.dy = dy;
-        this.vector = new Vector(dx, dy);
+    public MovableBall(int x, int y, int radius, Color color, int dx, int dy, int dt) {
+        this(x, y, radius, color, new Vector(dx, dy), dt);
     }
 
-    public MovableBall(int x, int y, int radius, Color color, Vector vector) {
+    public MovableBall(int x, int y, int radius, Color color, Vector vector, int dt) {
         super(x, y, radius, color);
-        this.dx = vector.getDX();
-        this.dy = vector.getDY();
-        this.vector = vector;
+        this.vector = new Vector(vector); // 복사 생성자를 사용한 이유는 vector를 변경하면 안되기 때문
+        this.dt = dt;
     }
 
     @Override
     public int getDX() {
-        return dx;
+        return vector.getDX();
     }
 
     @Override
     public void setDX(int dx) {
-        this.dx = dx;
+        vector.setDX(dx);
     }
 
     @Override
     public int getDY() {
-        return dy;
+        return vector.getDY();
     }
 
     @Override
     public void setDY(int dy) {
-        // System.out.println("set dy to : " + dy);
-        this.dy = dy;
+        vector.setDY(dy);
     }
 
     public void turnDX() {
-        setDX(-dx);
+        vector.setDX(-getDX());
     }
 
     public void turnDY() {
-        setDY(-dy);
+        vector.setDY(-getDY());
     }
 
     @Override
     public Vector getVector() {
-        return vector;
+        return new Vector(vector);
     }
 
     @Override
     public void setVector(int dx, int dy) {
-        vector = new Vector(dx, dy);
+        setDX(dx);
+        setDY(dy);
     }
 
     @Override
-    public void setVector(Vector newVector) {
-        vector = newVector;
+    public void setVector(Vector other) {
+        setDX(other.getDX());
+        setDY(other.getDY());
     }
 
     @Override
     public void move() {
-        setVector(dx, dy);
         move(vector);
     }
 
@@ -81,12 +79,10 @@ public class MovableBall extends PaintableBall implements Movable {
         Point currentPoint = getLocation();
         currentPoint.translate(vector);
         setLocation(currentPoint);
-    }
 
-    @Override
-    public void stop() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDT'");
+        if (movableListener != null) {
+            movableListener.action();
+        }
     }
 
     @Override
@@ -97,5 +93,32 @@ public class MovableBall extends PaintableBall implements Movable {
     @Override
     public void setDT(int dt) {
         this.dt = dt;
+    }
+
+    @Override
+    public void run() {
+        thread = Thread.currentThread();
+        isRunning = true;
+        while (isRunning) {
+            try {
+                move();
+                Thread.sleep(getDT());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    @Override
+    public void stop() {
+        isRunning = false;
+        if (thread != null) {
+            thread.interrupt();
+        }
+    }
+
+    @Override
+    public void setMovableListener(MovableListener listener) {
+        this.movableListener = listener;
     }
 }

@@ -1,6 +1,8 @@
 package com.nhnacademy.world;
 
-import com.nhnacademy.ball.MovableBall;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import com.nhnacademy.classification.Bounceable;
 import com.nhnacademy.classification.BoundaryAble;
 import com.nhnacademy.classification.Hittable;
@@ -16,7 +18,6 @@ public class MovableWorld extends World {
 
         setFloorHittable(other -> {
             if (other instanceof Bounceable) {
-                System.out.println("FLOOR BOUNCE!");
                 Vector vector = ((Movable) other).getVector();
                 vector.multiply(0.7);
                 ((Movable) other).setVector(vector);
@@ -33,21 +34,6 @@ public class MovableWorld extends World {
     }
 
     public void move() {
-        for (int i = 0; i < getCount(); i++) {
-            BoundaryAble object = get(i);
-
-            if (object instanceof Bounceable) {
-                ((Movable) object).move();
-
-                for (int j = 0; j < getCount(); j++) {
-                    BoundaryAble other = get(j);
-
-                    if (i != j && object.isCollided(other)) {
-                        ((Bounceable) object).bounce(other);
-                    }
-                }
-            }
-        }
         repaint();
     }
 
@@ -55,7 +41,7 @@ public class MovableWorld extends World {
         while (!Thread.currentThread().isInterrupted()) {
             move();
             try {
-                Thread.sleep(getDT()); // TODO: 이걸 나중에 공에다 적용해서 각자 속도 다르게 해보기
+                Thread.sleep(getDT());
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

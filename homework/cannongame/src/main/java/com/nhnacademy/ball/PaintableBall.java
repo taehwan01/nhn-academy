@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import com.nhnacademy.classification.Paintable;
 
 public class PaintableBall extends Ball implements Paintable {
-    private static Color DEFAULT_COLOR = Color.BLACK;
+    private static final Color DEFAULT_COLOR = Color.BLACK;
     private Color color;
 
     public PaintableBall(int x, int y, int radius) {

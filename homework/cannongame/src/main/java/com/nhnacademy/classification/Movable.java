@@ -2,7 +2,7 @@ package com.nhnacademy.classification;
 
 import com.nhnacademy.vector.Vector;
 
-public interface Movable {
+public interface Movable extends Runnable {
     public int getDX();
 
     public void setDX(int dx);
@@ -19,11 +19,13 @@ public interface Movable {
 
     public void move();
 
-    public void move(Vector newVector);
-
-    public void stop();
+    public void move(Vector vector);
 
     public int getDT();
 
     public void setDT(int dt);
+
+    public void stop();
+
+    public void setMovableListener(MovableListener listener);
 }

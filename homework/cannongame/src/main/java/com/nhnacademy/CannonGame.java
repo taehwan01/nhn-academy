@@ -1,19 +1,19 @@
 package com.nhnacademy;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import javax.swing.border.Border;
 
-import com.nhnacademy.ball.BounceableBall;
-import com.nhnacademy.ball.MovableBall;
-import com.nhnacademy.vector.Vector;
-import com.nhnacademy.world.MovableWorld;
+import com.nhnacademy.world.CannonWorld;
 
 public class CannonGame extends JFrame {
-        private MovableWorld world;
+        private CannonWorld world;
 
         public CannonGame() {
                 setTitle("C A N N O N   G A M E");
@@ -29,21 +29,31 @@ public class CannonGame extends JFrame {
                 border.setBounds(borderX, borderY - Constants.TOP_INSET / 2, borderWidth, borderHeight);
                 border.setBackground(Color.PINK);
                 border.setLayout(null);
+                add(border);
 
                 JPanel dashboard = new JPanel();
                 dashboard.setBounds(0, 0, Constants.DASHBOARD_WIDTH, Constants.WORLD_HEIGHT);
                 dashboard.setBackground(Color.DARK_GRAY);
                 border.add(dashboard);
-                add(border);
+
+                JButton button = new JButton("F I R E");
+                button.addActionListener(e -> {
+                        System.out.println("F I R E 🔥");
+                        try {
+                                world.fire();
+                        } catch (IllegalAccessError ex) {
+                                // alert 창 띄우기
+                                JOptionPane.showMessageDialog(null, ex.getMessage(), "경고",
+                                                JOptionPane.WARNING_MESSAGE);
+                        }
+                });
+                dashboard.add(button);
 
                 int worldX = Constants.DASHBOARD_WIDTH;
                 int worldY = 0;
-                world = new MovableWorld(worldX, worldY, Constants.WORLD_WIDTH,
+                world = new CannonWorld(worldX, worldY, Constants.WORLD_WIDTH,
                                 Constants.WORLD_HEIGHT, Constants.DEFAULT_DT);
                 border.add(world);
-
-                // world.add(new MovableBall(100, 200, 10, Color.ORANGE, new Vector(5, 3)));
-                world.add(new BounceableBall(300, 200, 30, Color.PINK, -5, 12));
         }
 
         public void start() {
