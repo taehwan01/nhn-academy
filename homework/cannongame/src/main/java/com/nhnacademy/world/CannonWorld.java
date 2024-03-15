@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.nhnacademy.Constants;
 import com.nhnacademy.ball.BounceableBall;
 import com.nhnacademy.classification.Bounceable;
 import com.nhnacademy.classification.BoundaryAble;
@@ -23,7 +24,11 @@ public class CannonWorld extends MovableWorld {
     }
 
     public void fire() {
-        BounceableBall ball = new BounceableBall(100, 120, 30, Color.BLACK, 4, 3, 50);
+        int radius = 30;
+        BounceableBall ball = new BounceableBall(radius,
+                Constants.WORLD_HEIGHT - Constants.WALL_THICKNESS * 2 - radius * 2,
+                radius, Color.BLACK, 6, -12,
+                50);
 
         ball.setMovableListener(() -> {
             Vector newVector = ball.getVector();

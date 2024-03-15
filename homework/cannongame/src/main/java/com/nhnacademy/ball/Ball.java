@@ -20,6 +20,7 @@ public class Ball implements BoundaryAble, Hittable {
     public Ball(int x, int y, int radius) {
         id = UUID.randomUUID().toString();
         boundary = new Boundary(x, y, radius * 2, radius * 2);
+        System.out.println("BALL : " + id);
     }
 
     @Override
@@ -72,7 +73,9 @@ public class Ball implements BoundaryAble, Hittable {
 
     @Override
     public void hit(BoundaryAble other) {
-        hitter.hit(other);
+        if (hitter != null) {
+            hitter.hit(other);
+        }
     }
 
     @Override
