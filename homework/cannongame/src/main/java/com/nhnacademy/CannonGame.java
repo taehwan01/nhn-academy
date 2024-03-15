@@ -42,8 +42,8 @@ public class CannonGame extends JFrame {
                                 Constants.WORLD_HEIGHT, Constants.DEFAULT_DT);
                 border.add(world);
 
-                world.add(new MovableBall(10, 20, 10, Color.ORANGE, new Vector(5, 3)));
-                world.add(new BounceableBall(1000, 600, 30, Color.PINK, -5, -2));
+                // world.add(new MovableBall(100, 200, 10, Color.ORANGE, new Vector(5, 3)));
+                world.add(new BounceableBall(300, 200, 30, Color.PINK, -5, 12));
         }
 
         public void start() {

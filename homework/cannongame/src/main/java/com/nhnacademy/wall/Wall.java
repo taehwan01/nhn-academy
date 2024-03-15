@@ -1,25 +1,43 @@
-package com.nhnacademy.ball;
+package com.nhnacademy.wall;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.UUID;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.nhnacademy.classification.Boundary;
 import com.nhnacademy.classification.BoundaryAble;
-import com.nhnacademy.classification.Hittable;
+import com.nhnacademy.classification.Paintable;
 import com.nhnacademy.point.Point;
+import com.nhnacademy.classification.Hittable;
 
-public class Ball implements BoundaryAble, Hittable {
-    final Logger logger = LogManager.getLogger(this.getClass().getSimpleName());
+public class Wall implements Paintable, BoundaryAble, Hittable {
     final String id;
     final Boundary boundary;
+    private Color color = Color.BLACK;
     Hittable hitter;
 
-    public Ball(int x, int y, int radius) {
+    public Wall(int x, int y, int width, int height) {
         id = UUID.randomUUID().toString();
-        boundary = new Boundary(x, y, radius * 2, radius * 2);
+        boundary = new Boundary(x, y, width, height);
+        System.out.println(id + " : " + boundary.getX() + " " + boundary.getY() + " " + boundary.getWidth() + " "
+                + boundary.getHeight());
+    }
+
+    @Override
+    public Color getColor() {
+        return color;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        g.setColor(getColor());
+        g.drawRect(getX(), getY(), getWidth(), getHeight());
     }
 
     @Override
@@ -56,11 +74,6 @@ public class Ball implements BoundaryAble, Hittable {
     }
 
     @Override
-    public boolean isCollided(BoundaryAble other) {
-        return boundary.isCollided(other.getBoundary());
-    }
-
-    @Override
     public int getWidth() {
         return boundary.getWidth();
     }
@@ -68,6 +81,11 @@ public class Ball implements BoundaryAble, Hittable {
     @Override
     public int getHeight() {
         return boundary.getHeight();
+    }
+
+    @Override
+    public boolean isCollided(BoundaryAble other) {
+        return boundary.isCollided(other.getBoundary());
     }
 
     @Override
@@ -79,4 +97,5 @@ public class Ball implements BoundaryAble, Hittable {
     public void setHittable(Hittable hitter) {
         this.hitter = hitter;
     }
+
 }

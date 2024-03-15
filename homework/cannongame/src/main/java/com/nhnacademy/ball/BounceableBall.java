@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import com.nhnacademy.classification.Bounceable;
 import com.nhnacademy.classification.Boundary;
+import com.nhnacademy.classification.BoundaryAble;
 import com.nhnacademy.vector.Vector;
 
 public class BounceableBall extends MovableBall implements Bounceable {
@@ -16,9 +17,10 @@ public class BounceableBall extends MovableBall implements Bounceable {
     }
 
     @Override
-    public void bounce(Boundary other) {
+    public void bounce(BoundaryAble other) {
+        System.out.println(other.getClass().getSimpleName() + " BOUNCE!");
         if (isCollided(other)) {
-            Boundary intersection = getBoundary().intersection(other);
+            Boundary intersection = getBoundary().intersection(other.getBoundary());
 
             if (intersection.getWidth() > intersection.getHeight()) {
                 turnDY();

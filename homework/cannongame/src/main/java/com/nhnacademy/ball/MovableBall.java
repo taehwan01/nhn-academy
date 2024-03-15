@@ -13,11 +13,16 @@ public class MovableBall extends PaintableBall implements Movable {
     private int dy;
 
     public MovableBall(int x, int y, int radius, Color color, int dx, int dy) {
-        this(x, y, radius, color, new Vector(dx, dy));
+        super(x, y, radius, color);
+        this.dx = dx;
+        this.dy = dy;
+        this.vector = new Vector(dx, dy);
     }
 
     public MovableBall(int x, int y, int radius, Color color, Vector vector) {
         super(x, y, radius, color);
+        this.dx = vector.getDX();
+        this.dy = vector.getDY();
         this.vector = vector;
     }
 
@@ -38,15 +43,16 @@ public class MovableBall extends PaintableBall implements Movable {
 
     @Override
     public void setDY(int dy) {
+        // System.out.println("set dy to : " + dy);
         this.dy = dy;
     }
 
     public void turnDX() {
-        dx *= -1;
+        setDX(-dx);
     }
 
     public void turnDY() {
-        dy *= -1;
+        setDY(-dy);
     }
 
     @Override
@@ -66,6 +72,7 @@ public class MovableBall extends PaintableBall implements Movable {
 
     @Override
     public void move() {
+        setVector(dx, dy);
         move(vector);
     }
 

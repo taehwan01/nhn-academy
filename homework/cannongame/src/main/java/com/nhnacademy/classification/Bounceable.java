@@ -1,5 +1,5 @@
 package com.nhnacademy.classification;
 
 public interface Bounceable {
-    public void bounce(Boundary other);
+    public void bounce(BoundaryAble other);
 }
