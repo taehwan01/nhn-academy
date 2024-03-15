@@ -1,5 +1,6 @@
 package com.nhnacademy.ball;
 
+import java.awt.Rectangle;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +23,11 @@ public class Ball implements BoundaryAble {
     @Override
     public Boundary getBoundary() {
         return boundary;
+    }
+
+    @Override
+    public Rectangle getRectangle() {
+        return boundary.getRectangle();
     }
 
     @Override
@@ -48,6 +54,11 @@ public class Ball implements BoundaryAble {
     }
 
     @Override
+    public boolean isCollided(Boundary other) {
+        return boundary.isCollided(other);
+    }
+
+    @Override
     public int getWidth() {
         return boundary.getWidth();
     }
@@ -55,10 +66,5 @@ public class Ball implements BoundaryAble {
     @Override
     public int getHeight() {
         return boundary.getHeight();
-    }
-
-    @Override
-    public boolean isCollided(Boundary other) {
-        return boundary.isCollided(other);
     }
 }

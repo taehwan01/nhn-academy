@@ -7,6 +7,11 @@ import com.nhnacademy.classification.Movable;
 public class MovableWorld extends World {
     private int dt;
 
+    public MovableWorld(int x, int y, int width, int height, int dt) {
+        super(x, y, width, height);
+        this.dt = dt;
+    }
+
     public int getDT() {
         return dt;
     }

@@ -1,5 +1,6 @@
 package com.nhnacademy.world;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +12,10 @@ import com.nhnacademy.classification.Paintable;
 public class World extends JPanel {
     List<BoundaryAble> objects = new ArrayList<>();
 
-    public World() {
+    public World(int x, int y, int width, int height) {
         super();
+        setBounds(x, y, width, height);
+        setBackground(Color.LIGHT_GRAY);
     }
 
     public int getCount() {

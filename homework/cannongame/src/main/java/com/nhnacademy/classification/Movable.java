@@ -3,6 +3,14 @@ package com.nhnacademy.classification;
 import com.nhnacademy.vector.Vector;
 
 public interface Movable {
+    public int getDX();
+
+    public void setDX(int dx);
+
+    public int getDY();
+
+    public void setDY(int dy);
+
     public Vector getVector();
 
     public void setVector(int dx, int dy);

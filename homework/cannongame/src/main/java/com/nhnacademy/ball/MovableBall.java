@@ -9,10 +9,44 @@ import com.nhnacademy.vector.Vector;
 public class MovableBall extends PaintableBall implements Movable {
     private Vector vector;
     private int dt;
+    private int dx;
+    private int dy;
+
+    public MovableBall(int x, int y, int radius, Color color, int dx, int dy) {
+        this(x, y, radius, color, new Vector(dx, dy));
+    }
 
     public MovableBall(int x, int y, int radius, Color color, Vector vector) {
         super(x, y, radius, color);
         this.vector = vector;
+    }
+
+    @Override
+    public int getDX() {
+        return dx;
+    }
+
+    @Override
+    public void setDX(int dx) {
+        this.dx = dx;
+    }
+
+    @Override
+    public int getDY() {
+        return dy;
+    }
+
+    @Override
+    public void setDY(int dy) {
+        this.dy = dy;
+    }
+
+    public void turnDX() {
+        dx *= -1;
+    }
+
+    public void turnDY() {
+        dy *= -1;
     }
 
     @Override

@@ -1,7 +1,11 @@
 package com.nhnacademy.classification;
 
+import java.awt.Rectangle;
+
 public interface BoundaryAble {
     public Boundary getBoundary();
+
+    public Rectangle getRectangle();
 
     public String getID();
 

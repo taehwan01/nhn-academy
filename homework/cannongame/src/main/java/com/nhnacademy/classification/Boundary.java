@@ -3,7 +3,6 @@ package com.nhnacademy.classification;
 import java.awt.Rectangle;
 
 import com.nhnacademy.point.Point;
-import com.nhnacademy.vector.Vector;
 
 public class Boundary {
     private final Rectangle rectangle;
@@ -44,4 +43,10 @@ public class Boundary {
         return rectangle.intersects(other.getRectangle());
     }
 
+    public Boundary intersection(Boundary other) {
+        Rectangle intersection = getRectangle().intersection(other.getRectangle());
+
+        return new Boundary((int) intersection.getMinX(), (int) intersection.getMinY(),
+                (int) intersection.getWidth(), (int) intersection.getHeight());
+    }
 }
