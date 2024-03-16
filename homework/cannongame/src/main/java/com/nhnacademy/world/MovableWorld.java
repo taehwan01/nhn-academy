@@ -1,11 +1,6 @@
 package com.nhnacademy.world;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import com.nhnacademy.classification.Bounceable;
-import com.nhnacademy.classification.BoundaryAble;
-import com.nhnacademy.classification.Hittable;
 import com.nhnacademy.classification.Movable;
 import com.nhnacademy.vector.Vector;
 

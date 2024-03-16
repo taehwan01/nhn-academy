@@ -1,9 +1,6 @@
 package com.nhnacademy;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -52,7 +49,7 @@ public class CannonGame extends JFrame {
                 int worldX = Constants.DASHBOARD_WIDTH;
                 int worldY = 0;
                 world = new CannonWorld(worldX, worldY, Constants.WORLD_WIDTH,
-                                Constants.WORLD_HEIGHT, Constants.DEFAULT_DT);
+                                Constants.WORLD_HEIGHT, Constants.DEFAULT_WORLD_DT);
                 border.add(world);
         }
 

@@ -13,7 +13,7 @@ import com.nhnacademy.classification.Movable;
 import com.nhnacademy.vector.Vector;
 
 public class CannonWorld extends MovableWorld {
-    transient ExecutorService threadPool = Executors.newFixedThreadPool(5);
+    transient ExecutorService threadPool = Executors.newFixedThreadPool(Constants.THREAD_COUNT);
     private int ballCount;
     private Vector gravity = new Vector(0, 1);
     private Vector wind = new Vector(0, 0);
@@ -24,17 +24,18 @@ public class CannonWorld extends MovableWorld {
     }
 
     public void fire() {
-        int radius = 30;
-        BounceableBall ball = new BounceableBall(radius,
-                Constants.WORLD_HEIGHT - Constants.WALL_THICKNESS * 2 - radius * 2,
-                radius, Color.BLACK, 6, -12,
-                50);
+        int radius = 10;
+        BounceableBall ball = new BounceableBall(0,
+                Constants.WORLD_HEIGHT - Constants.WALL_THICKNESS
+                        - Constants.DEFAULT_CANNONBALL_RADIUS * 2,
+                Constants.DEFAULT_CANNONBALL_RADIUS, Color.BLACK, 6, -14,
+                Constants.DEFAULT_CANNONBALL_DT);
 
         ball.setMovableListener(() -> {
             Vector newVector = ball.getVector();
             newVector.add(gravity);
+
             ball.setVector(newVector);
-            System.out.println(ball.getVector().getDX() + " : " + ball.getVector().getDY());
 
             if (ball instanceof Bounceable) {
                 for (int i = 0; i < getCount(); i++) {
@@ -45,7 +46,6 @@ public class CannonWorld extends MovableWorld {
 
                         if (other instanceof Hittable) {
                             ((Hittable) other).hit(ball);
-                            System.out.println(ball.getVector().getDX() + " : " + ball.getVector().getDY());
                         }
                     }
                 }
@@ -57,7 +57,7 @@ public class CannonWorld extends MovableWorld {
 
     @Override
     public void add(BoundaryAble object) {
-        if (ballCount >= 5) {
+        if (ballCount > Constants.THREAD_COUNT) {
             throw new IllegalAccessError("공이 너무 많습니다.");
         }
         super.add(object);

@@ -90,7 +90,9 @@ public class Wall implements Paintable, BoundaryAble, Hittable {
 
     @Override
     public void hit(BoundaryAble other) {
-        hitter.hit(other);
+        if (hitter != null) {
+            hitter.hit(other);
+        }
     }
 
     @Override

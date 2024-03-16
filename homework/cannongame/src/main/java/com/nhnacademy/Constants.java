@@ -14,5 +14,9 @@ public final class Constants {
     public static final int DASHBOARD_WIDTH = 300;
     public static final int WALL_THICKNESS = 20;
 
-    public static final int DEFAULT_DT = 10;
+    public static final int THREAD_COUNT = 20;
+    public static final int DEFAULT_CANNONBALL_RADIUS = 15;
+    public static final int DEFAULT_CANNONBALL_DT = 10;
+
+    public static final int DEFAULT_WORLD_DT = 10;
 }
