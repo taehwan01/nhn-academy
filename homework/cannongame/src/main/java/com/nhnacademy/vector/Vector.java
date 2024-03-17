@@ -54,8 +54,9 @@ public class Vector {
         setDY(getDY() - other.getDY());
     }
 
-    public void multiply(double factor) { // 속도 조절할 때 사용
+    public Vector multiply(double factor) { // 속도 조절할 때 사용
         setDX((int) (getDX() * factor));
         setDY((int) (getDY() * factor));
+        return this;
     }
 }

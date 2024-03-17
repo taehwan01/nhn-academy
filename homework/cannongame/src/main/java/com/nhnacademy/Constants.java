@@ -16,7 +16,7 @@ public final class Constants {
 
     public static final int THREAD_COUNT = 20;
     public static final int DEFAULT_CANNONBALL_RADIUS = 15;
-    public static final int DEFAULT_CANNONBALL_DT = 10;
+    public static final int DEFAULT_CANNONBALL_DT = 30;
     public static final double CANNONBALL_ELASTICITY = 0.5;
 
     public static final int DEFAULT_WORLD_DT = 10;
