@@ -1,5 +1,6 @@
 package com.nhnacademy.world;
 
+import com.nhnacademy.Constants;
 import com.nhnacademy.classification.Bounceable;
 import com.nhnacademy.classification.Movable;
 import com.nhnacademy.vector.Vector;
@@ -14,7 +15,7 @@ public class MovableWorld extends World {
         setFloorHittable(other -> {
             if (other instanceof Bounceable) {
                 Vector vector = ((Movable) other).getVector();
-                vector.multiply(0.7);
+                vector.multiply(Constants.CANNONBALL_ELASTICITY);
                 ((Movable) other).setVector(vector);
             }
         });

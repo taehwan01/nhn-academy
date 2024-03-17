@@ -12,6 +12,7 @@ import com.nhnacademy.classification.Hittable;
 import com.nhnacademy.point.Point;
 
 public class Ball implements BoundaryAble, Hittable {
+    private int radius;
     final Logger logger = LogManager.getLogger(this.getClass().getSimpleName());
     final String id;
     final Boundary boundary;
@@ -19,6 +20,7 @@ public class Ball implements BoundaryAble, Hittable {
 
     public Ball(int x, int y, int radius) {
         id = UUID.randomUUID().toString();
+        this.radius = radius;
         boundary = new Boundary(x, y, radius * 2, radius * 2);
     }
 
@@ -68,6 +70,10 @@ public class Ball implements BoundaryAble, Hittable {
     @Override
     public int getHeight() {
         return boundary.getHeight();
+    }
+
+    public int getRadius() {
+        return radius;
     }
 
     @Override

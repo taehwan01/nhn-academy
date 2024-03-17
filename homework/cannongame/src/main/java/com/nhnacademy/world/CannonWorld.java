@@ -16,7 +16,7 @@ public class CannonWorld extends MovableWorld {
     transient ExecutorService threadPool = Executors.newFixedThreadPool(Constants.THREAD_COUNT);
     private int ballCount;
     private Vector gravity = new Vector(0, 1);
-    private Vector wind = new Vector(0, 0);
+    private Vector wind = new Vector(1, 0);
 
     public CannonWorld(int x, int y, int width, int height, int dt) {
         super(x, y, width, height, dt);
@@ -34,6 +34,7 @@ public class CannonWorld extends MovableWorld {
         ball.setMovableListener(() -> {
             Vector newVector = ball.getVector();
             newVector.add(gravity);
+            // newVector.add(wind);
 
             ball.setVector(newVector);
 
