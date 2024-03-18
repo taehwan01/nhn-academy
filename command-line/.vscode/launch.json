@@ -6,6 +6,37 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Exam04",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.exam04.Exam04",
+            "projectName": "rational",
+            "args": [
+                "--class-path",
+                ".src/lib;./src/module",
+                "--module",
+                "slf4j",
+                "-g",
+                "-h",
+                "./src/main/java/Main.java"
+            ]
+        },
+        {
+            "type": "java",
+            "name": "Exam03",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.exam03.Exam03",
+            "projectName": "rational",
+            "args": [
+                "--class-path",
+                ".src/lib;./src/module",
+                "--module",
+                "slf4j",
+                "-g",
+                "./src/main/java/Main.java"
+            ]
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
