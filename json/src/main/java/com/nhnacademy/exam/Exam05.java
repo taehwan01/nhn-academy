@@ -18,6 +18,6 @@ public class Exam05 {
         }
 
         Object ageObject = object.get("age");
-        // System.out.println("Age type: " + object.getString("age")); // 에러
+        // System.out.println("Age type: " + object.getString("awefge")); // 에러
     }
 }

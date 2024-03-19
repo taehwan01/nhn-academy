@@ -28,7 +28,7 @@ public class Main {
         }
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("명령어 입력: ");
+        System.out.print("명령어 입력: ");
         StringTokenizer command = new StringTokenizer(br.readLine(), " ");
 
         JSONArray users;
@@ -49,7 +49,7 @@ public class Main {
         String classType;
         while (!(classType = command.nextToken()).equals("exit")) {
             String operation = command.nextToken();
-            String logMessage = "";
+            String logMessage = "유효하지 않은 명령어가 입력되었습니다.";
 
             if (classType.equals("user")) {
                 if (operation.equals("add")) {
@@ -69,7 +69,15 @@ public class Main {
                             users.remove(i);
                         }
                     }
+                } else if (operation.equals("list")) {
+                    System.out.println("ID\tNAME");
+                    for (int i = 0; i < users.length(); i++) {
+                        JSONObject user = (JSONObject) users.get(i);
+                        System.out.println(user.get("id") + "\t" + user.get("nickname"));
+                    }
+                    logMessage = "User 목록을 조회했습니다.";
                 }
+
                 String currentTime = LocalTime.now().toString().substring(0, 8);
                 Log log = new Log(currentTime, logMessage);
                 JSONObject logObject = new JSONObject(log);
@@ -89,7 +97,7 @@ public class Main {
             }
 
             br = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("명령어 입력: ");
+            System.out.print("명령어 입력: ");
             command = new StringTokenizer(br.readLine(), " ");
         }
     }

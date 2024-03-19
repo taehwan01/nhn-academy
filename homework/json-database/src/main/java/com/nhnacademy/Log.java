@@ -1,8 +1,8 @@
 package com.nhnacademy;
 
 public class Log {
-    private static int count;
-    private int id = ++count;
+    // private static int count;
+    // private int id = ++count;
     private String time;
     private String message;
 
@@ -11,9 +11,9 @@ public class Log {
         this.message = message;
     }
 
-    public int getId() {
-        return id;
-    }
+    // public int getId() {
+    // return id;
+    // }
 
     public String getTime() {
         return time;
