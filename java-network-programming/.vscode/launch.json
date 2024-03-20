@@ -1,0 +1,81 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "MQuiz07",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.quiz.quiz07.MQuiz07",
+            "projectName": "java-network-programming"
+        },
+        {
+            "type": "java",
+            "name": "Quiz07",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.quiz.quiz07.Quiz07",
+            "projectName": "java-network-programming"
+        },
+        {
+            "type": "java",
+            "name": "Quiz05",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.quiz.Quiz05",
+            "projectName": "java-network-programming"
+        },
+        {
+            "type": "java",
+            "name": "Exam03",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.exam.Exam03",
+            "projectName": "java-network-programming"
+        },
+        {
+            "type": "java",
+            "name": "Exam02",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.exam.Exam02",
+            "projectName": "java-network-programming"
+        },
+        {
+            "type": "java",
+            "name": "Quiz03",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.quiz.Quiz03",
+            "projectName": "java-network-programming"
+        },
+        {
+            "type": "java",
+            "name": "Quiz01",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.quiz.Quiz01",
+            "projectName": "java-network-programming",
+            "args": [
+                1,
+                10000
+            ]
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.Main",
+            "projectName": "java-network-programming"
+        },
+        {
+            "type": "java",
+            "name": "Exam01",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.exam.Exam01",
+            "projectName": "java-network-programming"
+        }
+    ]
+}
