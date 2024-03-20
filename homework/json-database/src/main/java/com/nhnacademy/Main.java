@@ -8,13 +8,41 @@ import java.io.InputStreamReader;
 import java.time.LocalTime;
 import java.util.StringTokenizer;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import com.nhnacademy.model.Log;
+import com.nhnacademy.model.User;
+
 public class Main {
     public static void main(String[] args) throws IOException {
+        OptionOperator optionOperator = new OptionOperator();
+
+        CommandLineParser parser = new DefaultParser();
+        for (Option option : optionOperator) {
+            System.out.println(option.getOpt());
+        }
+
+        try {
+            CommandLine commandLine = parser.parse(options, args);
+            if (commandLine.hasOption(helpOption.getOpt())) {
+                HelpFormatter formatter = new HelpFormatter();
+                formatter.printHelp("recoder", options);
+            }
+        } catch (ParseException e) {
+            System.err.println(e.getMessage());
+            System.exit(0);
+        }
+
         JSONTokener tokener;
         JSONObject data;
 
@@ -48,18 +76,18 @@ public class Main {
 
         String classType;
         while (!(classType = command.nextToken()).equals("exit")) {
-            String operation = command.nextToken();
+            String operational = command.nextToken();
             String logMessage = "유효하지 않은 명령어가 입력되었습니다.";
 
             if (classType.equals("user")) {
-                if (operation.equals("add")) {
+                if (operational.equals("add")) {
                     String id = command.nextToken();
                     String nickname = command.nextToken();
                     User user = new User(id, nickname);
                     JSONObject userObject = new JSONObject(user);
                     users.put(userObject);
-                    logMessage = String.format("User #%s %s 생성되었습니다.", user.getId(), user.getNickname());
-                } else if (operation.equals("delete")) {
+                    logMessage = String.format("User #%s %s 생성되었습니다.", user.getId(), user.getName());
+                } else if (operational.equals("delete")) {
                     String id = command.nextToken();
                     for (int i = 0; i < users.length(); i++) {
                         JSONObject user = (JSONObject) users.get(i);
@@ -69,7 +97,7 @@ public class Main {
                             users.remove(i);
                         }
                     }
-                } else if (operation.equals("list")) {
+                } else if (operational.equals("list")) {
                     System.out.println("ID\tNAME");
                     for (int i = 0; i < users.length(); i++) {
                         JSONObject user = (JSONObject) users.get(i);

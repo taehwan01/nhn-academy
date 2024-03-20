@@ -16,7 +16,7 @@
                 "--module",
                 "slf4j",
                 "-g",
-                "-h",
+                "-help",
                 "./src/main/java/Main.java"
             ]
         },
