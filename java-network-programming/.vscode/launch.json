@@ -6,6 +6,32 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SNC",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.quiz.snc.SNC",
+            "projectName": "java-network-programming",
+            "args": [
+                // "-h"
+                // "-l","1234",
+                "localhost","1234",
+            ]
+        },
+        {
+            "type": "java",
+            "name": "Quiz10",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.quiz.Quiz10",
+            "projectName": "java-network-programming"
+        },
+        {
+            "type": "java",
+            "name": "Exam04",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.exam.Exam04",
+            "projectName": "java-network-programming"
+        },
+        {
+            "type": "java",
             "name": "MQuiz07",
             "request": "launch",
             "mainClass": "com.nhnacademy.quiz.quiz07.MQuiz07",
