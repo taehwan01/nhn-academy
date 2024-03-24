@@ -10,6 +10,8 @@ import java.io.OutputStreamWriter;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 public class Client implements Runnable {
@@ -19,6 +21,7 @@ public class Client implements Runnable {
     OutputStream localOutputStream;
     InputStream remoteInputStream;
     OutputStream remoteOutputStream;
+    Logger logger = LogManager.getLogger(this.getClass().getSimpleName());
 
     public Client(Server server, InputStream localInputStream,
             OutputStream localOutputStream,
@@ -29,7 +32,6 @@ public class Client implements Runnable {
         this.localOutputStream = localOutputStream;
         this.remoteInputStream = remoteInputStream;
         this.remoteOutputStream = remoteOutputStream;
-        System.out.println("Client connected: " + clientId.toString());
     }
 
     public UUID getClientId() {
@@ -39,7 +41,7 @@ public class Client implements Runnable {
     public JSONObject getInfo() {
         // return String.format("{ \"id\" : %d, \"type\" : \"connect\", \"client_id\" :
         // \"%s\"}", id, clientId);
-        return new JSONObject().put("type", "connect").put("client_id", clientId.toString());
+        return new JSONObject().put(Constants.TYPE, Constants.CONNECT).put(Constants.CLIENT_ID, clientId.toString());
     }
 
     @Override
@@ -73,7 +75,7 @@ public class Client implements Runnable {
                         server.getCommand(clientId.toString(), line);
                     }
                 } catch (IOException e) {
-                    System.err.println(e.getMessage());
+                    logger.error(e.getMessage());
                 }
             });
 
@@ -86,7 +88,7 @@ public class Client implements Runnable {
                         remoteWriter.flush();
                     }
                 } catch (IOException e) {
-                    System.err.println(e.getMessage());
+                    logger.error(e.getMessage());
                 }
             });
 
@@ -96,7 +98,7 @@ public class Client implements Runnable {
             sender.join();
         } catch (IOException | InterruptedException e) {
             Thread.currentThread().interrupt();
-            System.err.println(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 }
