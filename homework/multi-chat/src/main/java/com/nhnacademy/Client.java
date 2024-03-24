@@ -13,9 +13,6 @@ import java.util.UUID;
 import org.json.JSONObject;
 
 public class Client implements Runnable {
-    static int count = 0;
-    // int id = ++count;
-    int id = 1;
     UUID clientId = UUID.randomUUID();
     Server server;
     InputStream localInputStream;
@@ -34,23 +31,27 @@ public class Client implements Runnable {
         this.remoteOutputStream = remoteOutputStream;
     }
 
+    public UUID getClientId() {
+        return clientId;
+    }
+
     public JSONObject getInfo() {
         // return String.format("{ \"id\" : %d, \"type\" : \"connect\", \"client_id\" :
         // \"%s\"}", id, clientId);
-        return new JSONObject().put("id", id).put("type", "connect").put("client_id", clientId.toString());
+        return new JSONObject().put("type", "connect").put("client_id", clientId.toString());
     }
 
     @Override
     public boolean equals(Object otherClient) {
         if (otherClient instanceof Client) {
-            return id == ((Client) otherClient).id;
+            return clientId.equals(((Client) otherClient).clientId);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(clientId);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class Client implements Runnable {
                         localWriter.write(line);
                         localWriter.write("\n");
                         localWriter.flush();
-                        server.sendToAll(line);
+                        server.getCommand(clientId.toString(), line);
                     }
                 } catch (IOException e) {
                     System.err.println(e.getMessage());

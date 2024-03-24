@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -14,14 +16,17 @@ import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
 
 public class Server {
-    List<Socket> socketList;
+    int id = 0;
+    // List<Socket> socketList;
     List<Thread> threadList;
-    List<Integer> clientList;
+    // List<Client> clientList;
+    Map<Client, Socket> clientSocketMap;
 
     public Server() {
-        socketList = new ArrayList<>();
+        // socketList = new ArrayList<>();
         threadList = new ArrayList<>();
-        clientList = new ArrayList<>();
+        // clientList = new ArrayList<>();
+        clientSocketMap = new HashMap<>();
     }
 
     int portOption(String[] args) {
@@ -46,7 +51,9 @@ public class Server {
             // Server는 종료하지 않는다.
             while (true) {
                 Socket socket = serverSocket.accept();
-                addClient(socket);
+                Client newClient = new Client(this, System.in, System.out, socket.getInputStream(),
+                        socket.getOutputStream());
+                addClient(newClient, socket);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,59 +61,95 @@ public class Server {
         }
     }
 
-    void addClient(Socket socket) {
-        try {
-            socketList.add(socket);
-            Client newClient = new Client(this, System.in, System.out, socket.getInputStream(),
-                    socket.getOutputStream());
-
-            JSONObject info = newClient.getInfo();
-            int id = info.getInt("id");
-            String type = info.getString("type");
-            String clientId = info.getString("client_id");
-            JSONObject response = new JSONObject().put("id", id).put("type", type);
-            response.put("client_id", clientId);
-
-            if (isExistingClient(newClient)) {
-                response.put("response", "deny");
-                socket.getOutputStream().write(response.toString().getBytes());
-                socket.getOutputStream().write("\n".getBytes());
-                socket.getOutputStream().flush();
-                return;
-            } else {
-                response.put("response", "ok");
-                socket.getOutputStream().write(response.toString().getBytes());
-                socket.getOutputStream().write("\n".getBytes());
-                socket.getOutputStream().flush();
-                clientList.add(newClient.id);
+    Client getClient(String clientId) {
+        // clientSocketMap iterator
+        for (Map.Entry<Client, Socket> entry : clientSocketMap.entrySet()) {
+            if (entry.getKey().getClientId().equals(clientId)) {
+                return entry.getKey();
             }
+        }
+        return null;
+    }
 
-            Thread thread = new Thread(newClient);
-            threadList.add(thread);
-            thread.start();
+    void getCommand(String clientId, String command) {
+        JSONObject jsonCommand = new JSONObject(command);
+        String type = jsonCommand.getString("type");
+        if (type.equals("message")) {
+            String targetId = jsonCommand.getString("target_id");
+            String message = jsonCommand.getString("message");
+            Client sender = getClient(clientId);
+            Client receiver = getClient(targetId);
+            sendDirectMessage(message, sender, receiver);
+        }
+    }
+
+    void addClient(Client newClient, Socket socket) {
+        clientSocketMap.put(newClient, socket);
+
+        JSONObject info = newClient.getInfo();
+        id++;
+        String type = info.getString("type");
+        String clientId = info.getString("client_id");
+        JSONObject response = new JSONObject().put("id", id).put("type", type);
+        response.put("client_id", clientId);
+
+        if (isExistingClient(newClient)) {
+            denyClient(socket, response);
+            return;
+        } else {
+            acceptClient(socket, newClient, response, id);
+        }
+
+        Thread thread = new Thread(newClient);
+        threadList.add(thread);
+        thread.start();
+    }
+
+    public boolean isExistingClient(Client newClient) {
+        String newClientId = newClient.getClientId().toString();
+        if (getClient(newClientId) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public void denyClient(Socket socket, JSONObject response) {
+        try {
+            response.put("response", "deny");
+            socket.getOutputStream().write(response.toString().getBytes());
+            socket.getOutputStream().write("\n".getBytes());
+            socket.getOutputStream().flush();
+            socket.close();
+            clientSocketMap.remove(clientSocketMap.size() - 1);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
     }
 
-    public boolean isExistingClient(Client newClient) {
-        for (int id : clientList) {
-            if (newClient.id == id) {
-                return true;
-            }
+    public void acceptClient(Socket socket, Client newClient, JSONObject response, int id) {
+        try {
+            response.put("response", "ok");
+            socket.getOutputStream().write(response.toString().getBytes());
+            socket.getOutputStream().write("\n".getBytes());
+            socket.getOutputStream().flush();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
-        return false;
     }
 
     void sendToAll(String message) {
-        for (Socket socket : socketList) {
-            try {
-                socket.getOutputStream().write(message.getBytes());
-                socket.getOutputStream().write("\n".getBytes());
-                socket.getOutputStream().flush();
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }
-        }
+        // for (Socket socket : socketList) {
+        // try {
+        // socket.getOutputStream().write(message.getBytes());
+        // socket.getOutputStream().write("\n".getBytes());
+        // socket.getOutputStream().flush();
+        // } catch (IOException e) {
+        // System.err.println(e.getMessage());
+        // }
+        // }
+    }
+
+    void sendDirectMessage(String Message, Client sender, Client receiver) {
+
     }
 }
