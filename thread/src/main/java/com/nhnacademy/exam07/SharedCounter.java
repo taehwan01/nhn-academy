@@ -17,6 +17,7 @@ public class SharedCounter extends Thread {
         while (count < maxCount) {
             count++;
             sharedCount.increment();
+            System.out.println(sharedCount.getCount());
         }
     }
 }

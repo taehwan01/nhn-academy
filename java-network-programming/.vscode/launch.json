@@ -6,14 +6,24 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SimpleNC",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.quiz.multichat.SimpleNC",
+            "projectName": "java-network-programming",
+            "args": [
+                "-l",
+                "1234"
+            ]
+        },
+        {
+            "type": "java",
             "name": "SNC",
             "request": "launch",
             "mainClass": "com.nhnacademy.quiz.snc.SNC",
             "projectName": "java-network-programming",
             "args": [
-                // "-h"
-                // "-l","1234",
-                "localhost","1234",
+                "localhost",
+                "1234"
             ]
         },
         {
