@@ -7,23 +7,53 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.Objects;
+import java.util.UUID;
 
-public class Netcat implements Runnable {
+import org.json.JSONObject;
+
+public class Client implements Runnable {
+    static int count = 0;
+    // int id = ++count;
+    int id = 1;
+    UUID clientId = UUID.randomUUID();
+    Server server;
     InputStream localInputStream;
     OutputStream localOutputStream;
     InputStream remoteInputStream;
     OutputStream remoteOutputStream;
 
-    public Netcat(InputStream localInputStream,
+    public Client(Server server, InputStream localInputStream,
             OutputStream localOutputStream,
             InputStream remoteInputStream,
             OutputStream remoteOutputStream) {
+        this.server = server;
         this.localInputStream = localInputStream;
         this.localOutputStream = localOutputStream;
         this.remoteInputStream = remoteInputStream;
         this.remoteOutputStream = remoteOutputStream;
     }
 
+    public JSONObject getInfo() {
+        // return String.format("{ \"id\" : %d, \"type\" : \"connect\", \"client_id\" :
+        // \"%s\"}", id, clientId);
+        return new JSONObject().put("id", id).put("type", "connect").put("client_id", clientId.toString());
+    }
+
+    @Override
+    public boolean equals(Object otherClient) {
+        if (otherClient instanceof Client) {
+            return id == ((Client) otherClient).id;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
     public void run() {
         try (
                 BufferedReader localReader = new BufferedReader(new InputStreamReader(localInputStream));
@@ -38,6 +68,7 @@ public class Netcat implements Runnable {
                         localWriter.write(line);
                         localWriter.write("\n");
                         localWriter.flush();
+                        server.sendToAll(line);
                     }
                 } catch (IOException e) {
                     System.err.println(e.getMessage());
@@ -61,7 +92,8 @@ public class Netcat implements Runnable {
             sender.start();
             receiver.join();
             sender.join();
-        } catch (Exception e) {
+        } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
             System.err.println(e.getMessage());
         }
     }

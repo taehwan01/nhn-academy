@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "com.nhnacademy.Server",
+            "projectName": "netcat"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -17,8 +24,8 @@
             "mainClass": "com.nhnacademy.Main",
             "projectName": "netcat",
             "args": [
-                "p", 1234
-                // "localhost", 1234
+                "p",
+                1234
             ]
         }
     ]
