@@ -64,7 +64,7 @@ public class Server {
     Client getClient(String clientId) {
         // clientSocketMap iterator
         for (Map.Entry<Client, Socket> entry : clientSocketMap.entrySet()) {
-            if (entry.getKey().getClientId().equals(clientId)) {
+            if (entry.getKey().getClientId().toString().equals(clientId)) {
                 return entry.getKey();
             }
         }
@@ -79,12 +79,13 @@ public class Server {
             String message = jsonCommand.getString("message");
             Client sender = getClient(clientId);
             Client receiver = getClient(targetId);
+            // System.out.println(sender.getClientId());
+            // System.out.println(receiver.getClientId());
             sendDirectMessage(message, sender, receiver);
         }
     }
 
     void addClient(Client newClient, Socket socket) {
-        clientSocketMap.put(newClient, socket);
 
         JSONObject info = newClient.getInfo();
         id++;
@@ -132,6 +133,7 @@ public class Server {
             socket.getOutputStream().write(response.toString().getBytes());
             socket.getOutputStream().write("\n".getBytes());
             socket.getOutputStream().flush();
+            clientSocketMap.put(newClient, socket);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
@@ -149,7 +151,17 @@ public class Server {
         // }
     }
 
-    void sendDirectMessage(String Message, Client sender, Client receiver) {
-
+    void sendDirectMessage(String message, Client sender, Client receiver) {
+        String senderId = sender.getClientId().toString();
+        Socket receiverSocket = clientSocketMap.get(receiver);
+        JSONObject jsonMessage = new JSONObject().put("id", id).put("type", "message").put("client_id", senderId)
+                .put("message", message);
+        try {
+            receiverSocket.getOutputStream().write(jsonMessage.toString().getBytes());
+            receiverSocket.getOutputStream().write("\n".getBytes());
+            receiverSocket.getOutputStream().flush();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

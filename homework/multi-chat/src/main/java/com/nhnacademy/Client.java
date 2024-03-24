@@ -29,6 +29,7 @@ public class Client implements Runnable {
         this.localOutputStream = localOutputStream;
         this.remoteInputStream = remoteInputStream;
         this.remoteOutputStream = remoteOutputStream;
+        System.out.println("Client connected: " + clientId.toString());
     }
 
     public UUID getClientId() {
